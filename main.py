@@ -1,5 +1,5 @@
 from classes import Sudoku
-from techniques import naked_single, naked_pairs_triples
+from techniques import naked_single, naked_pairs_triples, hidden_pairs_triples
 
 
 def parse_sudokus():
@@ -18,7 +18,7 @@ def parse_sudokus():
 
 def resolve(sudoku):
 
-    techniques = [naked_single, naked_pairs_triples]
+    techniques = [naked_single, naked_pairs_triples, hidden_pairs_triples]
 
     progress = True
     while progress:

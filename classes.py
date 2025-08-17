@@ -17,7 +17,7 @@ class Cell:
         if value in self.candidates:
             self.candidates.discard(value)
             progress = True
-
+        # if only one candidate : becomes value and clear candidates
         if len(self.candidates) == 1:
             single_value = next(iter(self.candidates))
             self.assign_value(single_value)
@@ -25,13 +25,13 @@ class Cell:
 
         return progress
 
-    def build_candidates(self):
+    def build_candidates(self) -> set:
         return set(range(1, 10))
 
-    def get_value(self):
+    def get_value(self) -> int:
         return self.value
 
-    def get_candidates(self):
+    def get_candidates(self) -> set:
         return self.candidates
 
     def __repr__(self):
@@ -50,7 +50,8 @@ class Sudoku:
         self.cols = self.build_cols()
         self.squares = self.build_squares()
 
-    def build_cells(self):
+    # Parse the grid and build the sudoku/cells objects
+    def build_cells(self) -> dict:
         cells = {}
         for row in range(9):
             for col in range(9):
@@ -59,25 +60,24 @@ class Sudoku:
                 char = self.grid[row][col]
                 if char.isdigit():
                     c.assign_value(int(char))
-                else:
-                    c.build_candidates()
 
+                # key : coordinates | value = cell object
                 cells[(row + 1, col + 1)] = c
         return cells
 
-    def build_rows(self):
+    def build_rows(self) -> dict:
         return {
             row + 1: [self.cells[(row + 1, col + 1)] for col in range(9)]
             for row in range(9)
         }
 
-    def build_cols(self):
+    def build_cols(self) -> dict:
         return {
             col + 1: [self.cells[(row + 1, col + 1)] for row in range(9)]
             for col in range(9)
         }
 
-    def build_squares(self):
+    def build_squares(self) -> dict:
         squares = {}
         sq_id = 1
         for sr in range(3):
@@ -117,14 +117,40 @@ class Sudoku:
     def get_square_candidates(self, square_number):
         return [c.candidates for c in self.get_square(square_number) if c.value is None]
 
-    def __repr__(self):
+    def get_cell_groups(self, cell):
+        return {
+            "row_values": {
+                c.value for c in self.get_row(cell.row) if c.value is not None
+            },
+            "col_values": {
+                c.value for c in self.get_col(cell.col) if c.value is not None
+            },
+            "square_values": {
+                c.value for c in self.get_square(cell.square) if c.value is not None
+            },
+            "row_candidates": [
+                c.candidates for c in self.get_row(cell.row) if c.value is None
+            ],
+            "col_candidates": [
+                c.candidates for c in self.get_col(cell.col) if c.value is None
+            ],
+            "square_candidates": [
+                c.candidates for c in self.get_square(cell.square) if c.value is None
+            ],
+        }
 
+    def __repr__(self):
         grid = ""
-        for row in range(1, 10):
-            for cell in self.rows[row]:
-                grid += str(cell.value) if cell.value is not None else "x"
-                grid += " "
+        for r in range(1, 10):
+            for c, cell in enumerate(self.rows[r], 1):
+                grid += str(cell.value) if cell.value else "x"
+                if c % 3 == 0 and c != 9:
+                    grid += " | "
+                else:
+                    grid += " "
             grid += "\n"
+            if r % 3 == 0 and r != 9:
+                grid += "-" * 21 + "\n"
 
         return grid
 

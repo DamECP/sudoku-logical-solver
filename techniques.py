@@ -25,11 +25,12 @@ def naked_single(sudoku):
 
     for cell in sudoku.cells.values():
         if cell.value is None:
-            row_values = sudoku.get_row_values(cell.row)
-            col_values = sudoku.get_col_values(cell.col)
-            square_values = sudoku.get_square_values(cell.square)
 
-            before = set(cell.candidates)
+            groups = sudoku.get_cell_groups(cell)
+
+            row_values = groups["row_values"]
+            col_values = groups["col_values"]
+            square_values = groups["square_values"]
 
             for group in [row_values, col_values, square_values]:
                 for value in group:
@@ -52,11 +53,12 @@ def naked_pairs_triples(sudoku):
             continue
 
         ref = cell.candidates
+        groups = sudoku.get_cell_groups(cell)
 
         group_candidates = [
-            sudoku.get_row_candidates(cell.row),
-            sudoku.get_col_candidates(cell.col),
-            sudoku.get_square_candidates(cell.square),
+            groups["row_candidates"],
+            groups["col_candidates"],
+            groups["square_candidates"],
         ]
 
         identical_candidates_number = [group.count(ref) for group in group_candidates]
@@ -96,24 +98,19 @@ def hidden_pairs_triples(sudoku):
                 continue
 
             ref = cell.candidates
+            groups = sudoku.get_cell_groups(cell)
 
-            # Builds all possible combination : pairs, then triples
-            for combi_length in range(2, 4):
-                combi = combinations(ref, combi_length)
+            group_candidates = [
+                groups["row_candidates"],
+                groups["col_candidates"],
+                groups["square_candidates"],
+            ]
 
-                found = []
-                not_found = []
-
-                for compared_cell in sudoku.get_row_candidates(cell.row):
-                    if compared_cell.candidates.issupperset(combi):
-                        found.append(compared_cell)
-                    else:
-                        not_found.append(compared_cell)
-
-                if len(found) == combi_length:
-                    for value in combi:
-                        for c in not_found:
-                            if c.discard(value):
-                                progress = True
+            for group in group_candidates:
+                # Builds all possible combination : pairs, then triples
+                for combi_length in range(2, 4):
+                    for comb in combinations(ref, combi_length):
+                        # Each combination requires to be a set to be checked later on
+                        combi = set(comb)
 
     return progress
