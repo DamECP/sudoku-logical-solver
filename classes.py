@@ -44,6 +44,8 @@ class Cell:
 class Sudoku:
     def __init__(self, grid):
 
+        # Deep copy for comparison purpose
+        self.initial_state = [row[:] for row in grid]
         self.grid = grid
         self.cells = self.build_cells()
         self.rows = self.build_rows()
@@ -99,23 +101,14 @@ class Sudoku:
     def get_square(self, square_number):
         return self.squares[square_number]
 
-    def get_row_values(self, row_number):
-        return {c.value for c in self.get_row(row_number) if c.value is not None}
-
-    def get_col_values(self, col_number):
-        return {c.value for c in self.get_col(col_number) if c.value is not None}
-
-    def get_square_values(self, square_number):
-        return {c.value for c in self.get_square(square_number) if c.value is not None}
-
-    def get_row_candidates(self, row_number):
-        return [c.candidates for c in self.get_row(row_number) if c.value is None]
-
-    def get_col_candidates(self, col_number):
-        return [c.candidates for c in self.get_col(col_number) if c.value is None]
-
-    def get_square_candidates(self, square_number):
-        return [c.candidates for c in self.get_square(square_number) if c.value is None]
+    def current_version(self):
+        return [
+            "".join(
+                str(cell.value) if cell.value is not None else "x"
+                for cell in self.rows[r]
+            )
+            for r in range(1, 10)
+        ]
 
     def get_cell_groups(self, cell):
         return {
@@ -140,6 +133,16 @@ class Sudoku:
         }
 
     def __repr__(self):
+
+        white, green, red = "\033[97m", "\033[92m", "\033[91m"
+
+        if self.current_version() == self.grid:
+            color = white
+        elif all(c.value is not None for c in self.cells.values()):
+            color = green
+        else:
+            color = red
+
         grid = ""
         for r in range(1, 10):
             for c, cell in enumerate(self.rows[r], 1):
@@ -152,7 +155,7 @@ class Sudoku:
             if r % 3 == 0 and r != 9:
                 grid += "-" * 21 + "\n"
 
-        return grid
+        return f"{color}{grid}{white}"
 
     def show_cell_candidates(self):
         for row in range(1, 10):

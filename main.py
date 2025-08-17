@@ -23,8 +23,10 @@ def resolve(sudoku):
     progress = True
     while progress:
         progress = False
-        for i in range(len(techniques)):
-            result = techniques[i](sudoku)
+        for technique in techniques:
+            result = technique(sudoku)
+            # Affiche le nom de la technique et si elle a fait progresser le sudoku
+            print(f"{technique.__name__}: {result}")
             if result:
                 progress = True
 
