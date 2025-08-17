@@ -3,6 +3,7 @@ To allow the program to implement the sudoku:
 - the sudoku must be written with x for empty cells
 - no space between characters
 
+
 Sudoku 1 : Difficulty 3
 x1xxx97x2
 xx7xx2xx4
@@ -13,6 +14,7 @@ xxx5x4xxx
 x4x2xxxx5
 8xx1xx9xx
 3x14xxx8x
+
 
 Sudoku 2 : Difficulty 3
 xxxx3xx5x
@@ -25,6 +27,7 @@ x4xx9x76x
 xxxxx1xxx
 x9xx6xxxx
 
+
 Sudoku 3 : Difficulty 3
 xx6xxxx28
 xxx4x196x
@@ -35,6 +38,7 @@ x4xxxx2xx
 x3x1xxxxx
 x217x5xxx
 69xxxx3xx
+
 
 Sudoku 4 : Difficulty 3
 2xxxx9xx4
@@ -47,6 +51,7 @@ xxxxx8xx7
 x471xxxx6
 8xx6xxxx5
 
+
 Sudoku 5 : Difficulty 3
 xxxx8xx3x
 132x9xxx5
@@ -57,3 +62,39 @@ x9xx5x2x1
 xxxxx5xx9
 2xxx3x586
 x6xx1xxxx
+
+
+Sudoku 6 : Difficulty 3
+xxxxx1x34
+xx9xx582x
+xxxx2xx19
+xxxxxxx43
+xxx4x8xxx
+39xxxxxxx
+45xx1xxxx
+x185xx6xx
+26x8xxxxx
+
+
+Sudoku 7 : Difficulty 4
+x1xx45xx2
+xxxxx765x
+x2x8xxxxx
+x9xxxx873
+xxxxxxxxx
+382xxxx6x
+xxxxx8x2x
+x734xxxxx
+4xx67xx3x
+
+
+Sudoku 8 : Difficulty 4
+xxxxx5xxx
+4xxxxxx35
+xx5x67x1x
+3xx82x1xx
+xx8xxx9xx
+xx4x93xx2
+x6x93x2xx
+91xxxxxx4
+xxx1xxxxx
