@@ -1,0 +1,59 @@
+To allow the program to implement the sudoku:
+- the first line must be the <Sudoku <n> : difficulty <level from 1 to 5>>
+- the sudoku must be written with x for empty cells
+- no space between characters
+
+Sudoku 1 : Difficulty 3
+x1xxx97x2
+xx7xx2xx4
+5xxxx8x1x
+xxxxxxx23
+xxx5x4xxx
+15xxxxxxx
+x4x2xxxx5
+8xx1xx9xx
+3x14xxx8x
+
+Sudoku 2 : Difficulty 3
+xxxx3xx5x
+xxx4xxxxx
+315xxxx42
+x67x4xx1x
+9xxxxxxx3
+x4xx9x76x
+48xxxx195
+xxxxx1xxx
+x9xx6xxxx
+
+Sudoku 3 : Difficulty 3
+xx6xxxx28
+xxx4x196x
+xxxxx3x1x
+xx9xxxx7x
+7x2xxx1x6
+x4xxxx2xx
+x3x1xxxxx
+x217x5xxx
+69xxxx3xx
+
+Sudoku 4 : Difficulty 3
+2xxxx9xx4
+3xxxx625x
+1xx3xxxxx
+xxxx9x4x3
+xxx7x3xxx
+7x2x4xxxx
+xxxxx8xx7
+x471xxxx6
+8xx6xxxx5
+
+Sudoku 5 : Difficulty 3
+xxxx8xx3x
+132x9xxx5
+5xx1xxxxx
+3x8x6xx4x
+xxxxxxxxx
+x9xx5x2x1
+xxxxx5xx9
+2xxx3x586
+x6xx1xxxx
