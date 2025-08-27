@@ -1,0 +1,136 @@
+To allow the program to implement the sudoku:
+- the first line must be the <Sudoku <n> : difficulty <level from 1 to 5>>
+- the sudoku must be written with x for empty cells
+- no space between characters
+
+
+Sudoku 1 : Difficulty 3
+x1xxx97x2
+xx7xx2xx4
+5xxxx8x1x
+xxxxxxx23
+xxx5x4xxx
+15xxxxxxx
+x4x2xxxx5
+8xx1xx9xx
+3x14xxx8x
+
+
+Sudoku 2 : Difficulty 3
+xxxx3xx5x
+xxx4xxxxx
+315xxxx42
+x67x4xx1x
+9xxxxxxx3
+x4xx9x76x
+48xxxx195
+xxxxx1xxx
+x9xx6xxxx
+
+
+Sudoku 3 : Difficulty 3
+xx6xxxx28
+xxx4x196x
+xxxxx3x1x
+xx9xxxx7x
+7x2xxx1x6
+x4xxxx2xx
+x3x1xxxxx
+x217x5xxx
+69xxxx3xx
+
+
+Sudoku 4 : Difficulty 3
+2xxxx9xx4
+3xxxx625x
+1xx3xxxxx
+xxxx9x4x3
+xxx7x3xxx
+7x2x4xxxx
+xxxxx8xx7
+x471xxxx6
+8xx6xxxx5
+
+
+Sudoku 5 : Difficulty 3
+xxxx8xx3x
+132x9xxx5
+5xx1xxxxx
+3x8x6xx4x
+xxxxxxxxx
+x9xx5x2x1
+xxxxx5xx9
+2xxx3x586
+x6xx1xxxx
+
+
+Sudoku 6 : Difficulty 3
+xxxxx1x34
+xx9xx582x
+xxxx2xx19
+xxxxxxx43
+xxx4x8xxx
+39xxxxxxx
+45xx1xxxx
+x185xx6xx
+26x8xxxxx
+
+
+Sudoku 7 : Difficulty 4
+x1xx45xx2
+xxxxx765x
+x2x8xxxxx
+x9xxxx873
+xxxxxxxxx
+382xxxx6x
+xxxxx8x2x
+x734xxxxx
+4xx67xx3x
+
+
+Sudoku 8 : Difficulty 4
+xxxxx5xxx
+4xxxxxx35
+xx5x67x1x
+3xx82x1xx
+xx8xxx9xx
+xx4x93xx2
+x6x93x2xx
+91xxxxxx4
+xxx1xxxxx
+
+
+Sudoku 9 : Difficulty 5
+xx6xxx4x2
+8xx71x6xx
+xxxxxxx7x
+38xxx4xx6
+9x1x6x5x4
+4xx1xxx93
+x5xxxxxxx
+xx8x49xx1
+1x9xxx3xx
+
+
+Sudoku 10 : Difficulty 5
+7xxxx54xx
+xx2x6xx9x
+x46xx8xxx
+583xxxxxx
+xx7xxx3xx
+xxxxxx849
+xxx5xx18x
+x6xx2x9xx
+xx48xxxx3
+
+
+Sudoku 11 : Difficulty 5
+3xx9xx72x
+2xxxx39xx
+x89x5xx4x
+x3xxx46xx
+xxxxxxxxx
+xx41xxx3x
+x1xx6x85x
+xx28xxxx1
+x93xx5xx6
