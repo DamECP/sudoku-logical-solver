@@ -1,5 +1,5 @@
 from classes import Cell, Sudoku
-from techniques import narrow_all_cells, naked_single
+from techniques import narrow_all_cells, naked_single, naked_pairs
 from logger import save_logs
 
 

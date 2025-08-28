@@ -40,12 +40,12 @@ def narrow_cell_candidates(cell, sudoku):
     return changes
 
 
+@repeat_until_no_change
 def narrow_all_cells(sudoku):
     changes = False
     for cell in sudoku.cells.values():
         if narrow_cell_candidates(cell, sudoku):
             changes = True
-            narrow_all_cells(sudoku)
     return changes
 
 
@@ -54,20 +54,51 @@ def naked_single(sudoku):
     """If only one possibility within the group : the cell gets the value"""
     changes = False
 
-    for i in range(1, 10):
-        for j in range(1, 10):
-            cells = [c for c in sudoku.rows[i] if j in c.candidates]
-            if len(cells) == 1:
-                cells[0].assign_value(j)
-        for k in range(1, 10):
-            cells = [c for c in sudoku.rows[i] if k in c.candidates]
-            if len(cells) == 1:
-                cells[0].assign_value(k)
-        for l in range(1, 10):
-            cells = [c for c in sudoku.rows[i] if l in c.candidates]
-            if len(cells) == 1:
-                cells[0].assign_value(l)
+    groups = [sudoku.rows, sudoku.cols, sudoku.squares]
 
+    for group in groups:
+        for i in range(1, 10):
+            for j in range(1, 10):
+                cells = [c for c in group[i] if j in c.candidates]
+                before = f"unique value = {j}\ncandidates around = {[c.candidates for c in group[i] if c.value is None]}"
+                # if value j appears only once within the group
+                if len(cells) == 1:
+                    # then assign it to the cell
+                    cell = next(iter(cells))
+                    explanation = f"only one cell can get {j} as value : {cell.coord}"
+                    cell.assign_value(j)
+                    after = f"new value for cell {cell.coord} : {cell}\nupdated candidates = {[c.candidates for c in group[i] if c.value is None]}"
+                    log_change(cell, "naked single", explanation, before, after)
+                    changes = True
+
+    return changes
+
+
+@repeat_until_no_change
+def naked_pairs(sudoku):
+    changes = False
+    groups = [sudoku.rows, sudoku.cols, sudoku.squares]
+
+    for group in groups:
+        for i in range(1, 10):
+            pairs = [
+                c.candidates
+                for c in group[i]
+                if c.value is None and len(c.candidates) == 2
+            ]
+
+            if len(pairs) > 1:
+
+                # build a counter object to get pairs that appear twice
+                counter = Counter(map(frozenset, pairs))
+                # list of duplicates
+                duplicates = [set(pair) for pair, count in counter.items() if count > 1]
+
+                for dup in duplicates:
+                    for cell in group[i]:
+                        if cell.candidates != dup:
+                            if cell.discard_candidates(dup):
+                                changes = True
     return changes
 
 
@@ -79,5 +110,5 @@ if __name__ == "__main__":
     sudoku = parse_sudokus()
     s = Sudoku(sudoku["Sudoku 1 : Difficulty 3"])
     print(s)
-    narrow_all_cells(s)
+    print(narrow_all_cells(s))
     print(naked_single(s))
