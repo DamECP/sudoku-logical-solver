@@ -1,5 +1,5 @@
 from classes import Cell, Sudoku
-from techniques import narrow_all_cells, naked_single, naked_pairs
+from techniques import narrow_all_cells, hidden_single, naked_pairs
 from logger import save_logs
 
 
@@ -18,7 +18,7 @@ def parse_sudokus():
 
 
 def resolve(sudoku):
-    techniques = [narrow_all_cells, naked_single, naked_pairs]
+    techniques = [narrow_all_cells, hidden_single, naked_pairs]
     for title, grid in sudoku.items():
         s = Sudoku(grid)
         changes = True

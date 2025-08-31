@@ -48,7 +48,7 @@ def narrow_all_cells(sudoku):
 
 
 @repeat_until_no_change
-def naked_single(sudoku):
+def hidden_single(sudoku):
     """If only one possibility within the group : the cell gets the value"""
     changes = False
 
