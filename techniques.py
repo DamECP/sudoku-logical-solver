@@ -95,7 +95,7 @@ def naked_pairs(sudoku):
                 for dup in duplicates:
                     for cell in group[i]:
                         if cell.candidates != dup:
-                            if cell.discard_candidates(dup):
+                            if cell.discard_candidates(dup, sudoku):
                                 changes = True
     return changes
 

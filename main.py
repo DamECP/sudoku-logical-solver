@@ -18,7 +18,7 @@ def parse_sudokus():
 
 
 def resolve(sudoku):
-    techniques = [narrow_all_cells, naked_single]
+    techniques = [narrow_all_cells, naked_single, naked_pairs]
     for title, grid in sudoku.items():
         s = Sudoku(grid)
         changes = True
