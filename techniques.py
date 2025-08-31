@@ -21,18 +21,16 @@ def narrow_cell_candidates(cell, sudoku):
     """Reduces the candidates for each cell based on their row/col/square values"""
     changes = False
 
-    all_values = {
-        c.value
-        for c in sudoku.rows[cell.row]
-        + sudoku.cols[cell.col]
-        + sudoku.squares[cell.square]
-        if c.value is not None
-    }
-
     if cell.value is None:
+
+        peers = cell.get_peers(sudoku)
+        all_values = [i.value for i in peers if i.value is not None]
+
         before = f"Before candidates = {sorted(cell.candidates)}"
         explanation = f"Values around = {sorted(all_values)}"
-        if cell.discard_candidates(all_values):
+
+        if cell.discard_candidates(all_values, sudoku):
+
             after = f"After candidates = {sorted(cell.candidates)   }"
             log_change(cell, "narrow_candidates", explanation, before, after)
             changes = True
@@ -66,7 +64,7 @@ def naked_single(sudoku):
                     # then assign it to the cell
                     cell = next(iter(cells))
                     explanation = f"only one cell can get {j} as value : {cell.coord}"
-                    cell.assign_value(j)
+                    cell.assign_value(j, sudoku)
                     after = f"new value for cell {cell.coord} : {cell}\nupdated candidates = {[c.candidates for c in group[i] if c.value is None]}"
                     log_change(cell, "naked single", explanation, before, after)
                     changes = True
@@ -110,5 +108,8 @@ if __name__ == "__main__":
     sudoku = parse_sudokus()
     s = Sudoku(sudoku["Sudoku 1 : Difficulty 3"])
     print(s)
-    print(narrow_all_cells(s))
-    print(naked_single(s))
+
+    narrow_all_cells(s)
+    naked_single(s)
+
+    print(s)

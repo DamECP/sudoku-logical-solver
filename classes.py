@@ -2,7 +2,7 @@ from logger import log_change
 
 
 class Cell:
-    def __init__(self, row, col, square):
+    def __init__(self, row, col, square, sudoku):
 
         self.row = row
         self.col = col
@@ -11,7 +11,20 @@ class Cell:
         self.value = None
         self.candidates = self.build_candidates()
 
-    def assign_value(self, value):
+    def get_peers(self, sudoku):
+        row = [cell for cell in sudoku.rows[self.row] if cell is not self]
+        col = [cell for cell in sudoku.cols[self.col] if cell is not self]
+        square = [cell for cell in sudoku.squares[self.square] if cell is not self]
+        return row + col + square
+
+    def update_peers(self, sudoku):
+        if self.value is not None:
+            peers = self.get_peers(sudoku)
+            for peer in peers:
+                if peer.value is None:
+                    peer.discard_candidates(self.value, sudoku)
+
+    def assign_value(self, value, sudoku):
         before = f"Before (candidates): {self.candidates}"
         self.value = value
         explanation = "only one candidate remaining"
@@ -20,8 +33,9 @@ class Cell:
             f"assigned_value = {self.value}, remaining candidates = {self.candidates}"
         )
         log_change(self, "assign_value", explanation, before, after)
+        self.update_peers(sudoku)
 
-    def discard_candidates(self, values):
+    def discard_candidates(self, values, sudoku):
         """Values can be a single value or a list"""
         changes = False
         if isinstance(values, int):
@@ -34,11 +48,11 @@ class Cell:
 
         if len(self.candidates) == 1:
             single_value = list(self.candidates)[0]
-            self.assign_value(single_value)
+            self.assign_value(single_value, sudoku)
             changes = True
 
         if self.value is None and len(self.candidates) == 0:
-            raise ValueError(f"{self.coord}")
+            raise ValueError(f"{self.coord, self.candidates, self.value}")
 
         return changes
 
@@ -57,9 +71,12 @@ class Sudoku:
 
         self.original_grid = [row[:] for row in grid]
         self.cells = self.build_cells()
+
         self.rows = self.build_rows()
         self.cols = self.build_cols()
         self.squares = self.build_squares()
+
+        self.initialize_values()
 
     # Parse the grid and build the sudoku/cells objects
     def build_cells(self) -> dict:
@@ -67,14 +84,16 @@ class Sudoku:
         for row in range(9):
             for col in range(9):
                 square = 3 * (row // 3) + (col // 3) + 1
-                c = Cell(row + 1, col + 1, square)
-                char = self.original_grid[row][col]
-                if char.isdigit():
-                    c.assign_value(int(char))
-
-                # coord as key, Cell obj as value
+                c = Cell(row + 1, col + 1, square, self)
                 cells[(row + 1, col + 1)] = c
         return cells
+
+    def initialize_values(self):
+        for row in range(9):
+            for col in range(9):
+                char = self.original_grid[row][col]
+                if char.isdigit():
+                    self.cells[(row + 1, col + 1)].assign_value(int(char), self)
 
     def build_rows(self) -> dict:
         return {
@@ -132,3 +151,16 @@ class Sudoku:
                 grid += "-" * 21 + "\n"
 
         return f"{color}{grid}{white}"
+
+
+if __name__ == "__main__":
+    from main import parse_sudokus
+
+    sudokus_dictionary = parse_sudokus()
+
+    sudoku = sudokus_dictionary["Sudoku 1 : Difficulty 3"]
+
+    s = Sudoku(sudoku)
+
+    for key, value in s.cells.items():
+        print(key, value, value.get_peers(s))
